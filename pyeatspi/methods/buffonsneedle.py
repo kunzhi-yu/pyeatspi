@@ -1,5 +1,4 @@
 import random
-import time
 from matplotlib import pyplot as plt
 import math
 
@@ -55,7 +54,6 @@ class BuffonsNeedle:
         
         # Estimate Pi
         pi_est = (2 * self.needle_length * self.sample_size) / (self.line_spacing * hits)
-        end_time = time.time()
 
         if self.viz:
             self._viz(pi_est)
@@ -72,12 +70,12 @@ class BuffonsNeedle:
 
         # Plot each needle
         for x_start, x_end, y_start, y_end, crossed in self.needles:
-            color = "red" if crossed else "blue"
+            color = "#7846B4" if crossed else "#6FAF22"
             ax.plot([x_start, x_end], [y_start, y_end], color=color, lw=2)
 
         # Label the plot
         fig.suptitle('Buffon\'s Needle Simulation with {} samples'.format(self.sample_size))
-        ax.set_title("Estimated value of pi: {}".format(pi_est))
+        ax.set_title(f"Estimated value of pi = {pi_est:.4f}")
         ax.set_xlabel("X Position")
         ax.set_ylabel("Y Position")
         plt.show()

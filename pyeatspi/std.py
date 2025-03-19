@@ -3,6 +3,7 @@ from .methods.circleratio import CircleRatio
 from .methods.laplaceneedle import LaplaceNeedle
 from .methods.mcintegral import MCIntegral
 from .methods.drunkard import Drunkard
+from tqdm import tqdm
 
 import numpy as np
 
@@ -32,12 +33,13 @@ def compare_std(sample_size: int, simulation_size: int, methods: list = None):
     else:
         methods_to_use = all_methods
         
-    if sample_size*simulation_size > 100000:
+    if sample_size*simulation_size > 1000000:
         print("WARNING: Large sample sizes or simulation sizes may take a long time to run.")
     
     variances = {}
 
-    for method in methods_to_use:
+    print("Running simulations...")
+    for method in tqdm(methods_to_use):
         estimates = np.zeros(simulation_size)
         for i in range(simulation_size):
             estimator = methods_to_use[method](sample_size=sample_size, viz=False)

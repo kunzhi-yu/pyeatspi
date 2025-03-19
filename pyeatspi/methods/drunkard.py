@@ -75,25 +75,29 @@ class Drunkard:
         ax.set_ylim([-1.1, 1.1])
 
         # Draw the unit circle
-        circle = plt.Circle((0, 0), 1, color='blue', fill=False, linewidth=2)
+        circle = plt.Circle((0, 0), 1, color='black', fill=False, linewidth=2)
         ax.add_artist(circle)
 
         # Draw the square boundary
         ax.plot([-1, 1, 1, -1, -1], [-1, -1, 1, 1, -1], 'k-', linewidth=2)
 
+        # Set major ticks at 0.5 increments
+        ax.set_xticks(np.arange(-1, 1.1, 0.5))
+        ax.set_yticks(np.arange(-1, 1.1, 0.5))
+
         # Plot the drunkard's path
-        ax.plot(self.xs, self.ys, 'r-', alpha=0.6, label="Drunkard's Path")
+        ax.plot(self.xs, self.ys, 'grey', alpha=0.2, label="Drunkard's Path")
 
         # Scatter points inside and outside the circle
-        ax.scatter(self.inside_xs, self.inside_ys, color='blue', s=10, alpha=0.5, label="Inside Circle")
-        ax.scatter(self.outside_xs, self.outside_ys, color='red', s=10, alpha=0.5, label="Outside Circle")
+        ax.scatter(self.inside_xs, self.inside_ys, color='#6FAF22', s=10, label="Inside Circle")
+        ax.scatter(self.outside_xs, self.outside_ys, color='#7846B4', s=10, label="Outside Circle")
 
         # Mark the start and end points
         ax.scatter(self.xs[0], self.ys[0], color='green', s=100, label="Start", edgecolors='black')
         ax.scatter(self.xs[-1], self.ys[-1], color='black', s=100, label="End", edgecolors='white')
 
         # Labels and legend
-        fig.suptitle("Drunkard's Walk Path")
+        fig.suptitle("Drunkard's Walk Path with {} steps".format(self.sample_size))
         ax.set_title(f"Estimated value of pi = {pi_est:.4f}")
         ax.legend()
         plt.show()

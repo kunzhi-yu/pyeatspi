@@ -1,9 +1,9 @@
 # PyEatsPi - A Python Package for Estimating Pi
 
 ## Overview
-Pyeatspi is a Python package that provides six different methods for estimating the mathematical constant \( \pi \), with a focus on Monte-Carlo simulation methods.
+Pyeatspi is a Python package that provides six different methods for estimating the mathematical constant pi, with a focus on Monte-Carlo simulation methods.
 
-Users can easily estimate Pi using a simple function call, analyze the estimation variance, and visualize the process for some methods. The demo.ipynb file provides a detailed usage demostration.
+Users can easily estimate Pi using a simple function call, analyze the estimation variance, and visualize the process where appropriate. The [demo file](demo.ipynb) provides a detailed usage demostration.
 
 ## Installation
 Clone this repository and install manually:
@@ -20,16 +20,22 @@ cd pyeatspi
 import pyeatspi
 
 # Estimate Pi using Buffon's Needle Method with 1000 samples
-pi_value = piest.estimate(samples=1000, method="buffons", viz=True)
+pi_value = piest.estimate(samples=1000,
+                          method="buffons",
+                          viz=True)
+
 print("Estimated Pi: ", pi_value)
 
-# Compare the variance between two methods
-variances = pyeatspi.compare_variance(sample_size=10000, simulation_size=100, methods=["buffon", "laplace"])
+# Compare the monte-carlo standard deviation between two methods
+stds = pyeatspi.compare_std(sample_size = 10000, 
+                            simulation_size = 100, 
+                            methods = ["buffon", "laplace"])
+print(stds)
 ```
 
 ### Estimate Method
 
-The following methods are avaliable.
+The following methods are avaliable to estimate Pi. Where `viz = True`, visualization is avaliable.
 ```python
 pi = pyeatspi.estimate(samples=1000, method="mc-integral")
 pi = pyeatspi.estimate(samples=5000, method="circle-ratio", viz=True)
@@ -58,7 +64,7 @@ stds = pyeatspi.compare_std(sample_size=10000, simulation_size=100)
 
 ## Methods Explained
 
-For a detailed explaination of all the methods, please see demo.ipynb!
+For a detailed explaination of all the methods, please see [demo.ipynb](demo.ipynb)!
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

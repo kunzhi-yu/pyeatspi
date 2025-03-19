@@ -1,5 +1,5 @@
 import random
-import numpy as np
+import math
 
 class MCIntegral:
     """
@@ -21,7 +21,7 @@ class MCIntegral:
         sum = 0
         for i in range(self.sample_size):
             u = random.uniform(0, 1)
-            y = np.sqrt(1 - u**2)
+            y = math.sqrt(1 - u**2)
             sum += y
         
         pi_est = 4 * sum / self.sample_size
