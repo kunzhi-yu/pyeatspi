@@ -38,13 +38,17 @@ def compare_std(sample_size: int, simulation_size: int, methods: list = None):
     
     variances = {}
 
+    length = len(methods_to_use) * simulation_size
     print("Running simulations...")
-    for method in tqdm(methods_to_use):
+    bar = tqdm(total = length)
+
+    for method in methods_to_use:
         estimates = np.zeros(simulation_size)
         for i in range(simulation_size):
             estimator = methods_to_use[method](sample_size=sample_size, viz=False)
             pi = estimator.estimate()
             estimates[i] = pi
+            bar.update(1)
         variances[method] = np.std(estimates)
 
     print("\nComparison of Standard Deviation for Pi Estimation Methods:")

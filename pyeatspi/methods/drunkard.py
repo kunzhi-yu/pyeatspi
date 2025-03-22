@@ -18,10 +18,10 @@ class Drunkard:
     a markov chain with a stationary distribution over a [-1, 1] x [-1, 1] square.
     """
 
-    def __init__(self, sample_size, viz):
+    def __init__(self, sample_size, viz, step_size = 0.2):
         self.sample_size = sample_size
         self.viz = viz
-        self.step_size = 0.2
+        self.step_size = step_size
         # for viz
         self.xs = []
         self.ys = []

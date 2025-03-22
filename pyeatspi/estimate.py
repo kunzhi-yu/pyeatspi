@@ -4,8 +4,9 @@ from .methods.laplaceneedle import LaplaceNeedle
 from .methods.mcintegral import MCIntegral
 from .methods.drunkard import Drunkard
 from .methods.chudnovsky import Chudnovsky
+from .methods.newtons import Newtons
 
-def estimate(sample_size: int, method: str, viz = False):
+def estimate(sample_size: int, method: str, viz = False, **kwargs):
     """
     Estimate pi using a given method and sample size, with optional visualization.
     Visualization is not supported by all methods. Detailed descriptions of each
@@ -23,7 +24,8 @@ def estimate(sample_size: int, method: str, viz = False):
         - 'drukard': Markov-chain simiulation similar to 'circle-samp' method.
         - 'buffon': Uses Buffon's needle to estimate pi.
         - 'laplace': Antithetic variates extension to Buffon's needle.
-        - 'chudnovsky': Direct method for calculating pi.
+        - 'chudnovsky': Exact method for calculating pi.
+        - 'newtons': Newton's method for calculating pi using sin(x).
 
     Returns:
         float: The estimated value of pi.
@@ -34,12 +36,13 @@ def estimate(sample_size: int, method: str, viz = False):
                "drunkard": Drunkard, 
                "buffon": BuffonsNeedle, 
                "laplace": LaplaceNeedle,
-               "chudnovsky": Chudnovsky}
+               "chudnovsky": Chudnovsky,
+               "newtons": Newtons}
 
     method_key = method.lower()
     if method_key not in methods:
         raise ValueError(f"Invalid method. Must be one of {list(methods.keys())}.")
     
-    estimator = methods[method_key](sample_size=sample_size, viz=viz)
+    estimator = methods[method_key](sample_size=sample_size, viz=viz, **kwargs)
 
     return estimator.estimate()
