@@ -6,10 +6,10 @@ Pyeatspi is a Python package that provides seven different methods for estimatin
 Users can easily estimate Pi using a simple function call, analyze the estimation variance, and visualize the process where appropriate. The [demo file](demo.ipynb) provides a detailed usage demostration.
 
 ## Installation
-Clone this repository and install manually:
+Clone this repository:
 
 ```sh
-git clone https://github.com/yourusername/pyeatspi.git
+git clone https://github.com/kunzhi-yu/pyeatspi.git
 cd pyeatspi
 ```
 
@@ -40,12 +40,14 @@ The following methods are avaliable to estimate Pi. Where `viz = True`, visualiz
 # Monte Carlo Methods
 pi = pyeatspi.estimate(samples=1000, method="mc-integral")
 pi = pyeatspi.estimate(samples=5000, method="circle-ratio", viz=True)
-pi = pyeatspi.estimate(samples=5000, method="drunkard", viz=True, step_size=0.2, burn_in=0)
+pi = pyeatspi.estimate(samples=5000, method="drunkard", viz=True,
+                       step_size=0.2, burn_in=0)
 pi = pyeatspi.estimate(samples=5000, method="buffon", viz=True)
 pi = pyeatspi.estimate(samples=5000, method="laplace")
 
 # Iterative Method
-pi = pyeatspi.estimate(samples=5000, method="newtons", viz=True, inital_guess=2, tolerance=1e-6)
+pi = pyeatspi.estimate(samples=5000, method="newtons", 
+                       viz=True, inital_guess=2, tolerance=1e-6)
 
 # Exact Method
 pi = pyeatspi.estimate(samples=5000, method="chudnovsky")
