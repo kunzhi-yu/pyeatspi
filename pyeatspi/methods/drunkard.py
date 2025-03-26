@@ -18,10 +18,11 @@ class Drunkard:
     a markov chain with a stationary distribution over a [-1, 1] x [-1, 1] square.
     """
 
-    def __init__(self, sample_size, viz, step_size = 0.2):
+    def __init__(self, sample_size, viz, step_size = 0.2, burn_in = 0):
         self.sample_size = sample_size
         self.viz = viz
         self.step_size = step_size
+        self.burn_in = burn_in
         # for viz
         self.xs = []
         self.ys = []
@@ -29,12 +30,14 @@ class Drunkard:
         self.inside_ys = []
         self.outside_xs = []
         self.outside_ys = []
+        self.burn_xs = []
+        self.burn_ys = []
 
     def estimate(self):
         num_inside = 0
-        x, y = 0 ,0
+        x, y = 0, 0
 
-        for _ in range(self.sample_size):
+        for i in range(self.sample_size):
             dx = random.uniform(-self.step_size, self.step_size)
             dy = random.uniform(-self.step_size, self.step_size)
             proposal_x = x + dx
@@ -44,22 +47,27 @@ class Drunkard:
             if -1 <= proposal_x <= 1 and -1 <= proposal_y <= 1:
                 x, y = proposal_x, proposal_y
 
-            # check if the point is inside the circle
-            if x**2 + y**2 <= 1:
+            # check if the point is inside the circle if after burn in period
+            if i >= self.burn_in and x**2 + y**2 <= 1:
                 num_inside += 1
 
             # these computations are only needed for viz
             if self.viz:
                 self.xs.append(x)
                 self.ys.append(y)
-                if x**2 + y**2 <= 1:
-                    self.inside_xs.append(x)
-                    self.inside_ys.append(y)
+
+                if i >= self.burn_in:
+                    if x**2 + y**2 <= 1:
+                        self.inside_xs.append(x)
+                        self.inside_ys.append(y)
+                    else:
+                        self.outside_xs.append(x)
+                        self.outside_ys.append(y)
                 else:
-                    self.outside_xs.append(x)
-                    self.outside_ys.append(y)
+                    self.burn_xs.append(x)
+                    self.burn_ys.append(y)
         
-        pi_est = 4 * num_inside / self.sample_size
+        pi_est = 4 * num_inside / (self.sample_size - self.burn_in)
 
         if self.viz:
             return self._viz(pi_est)
@@ -97,7 +105,7 @@ class Drunkard:
         ax.scatter(self.xs[-1], self.ys[-1], color='black', s=100, label="End", edgecolors='white')
 
         # Labels and legend
-        fig.suptitle("Drunkard's Walk Path with {} steps".format(self.sample_size))
+        fig.suptitle("Drunkard's Walk Path with {} steps, including {} burn-in steps".format(self.sample_size, self.burn_in))
         ax.set_title(f"Estimated value of pi = {pi_est:.4f}")
         ax.legend()
         plt.show()
